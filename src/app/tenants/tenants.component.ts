@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common'; // Import CommonModule
 import { Component } from '@angular/core';
 import {
   FormsModule,
@@ -6,6 +7,7 @@ import {
   FormGroup,
   Validators,
   FormControl,
+  Form,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -36,6 +38,7 @@ interface Tenant {
     MatInputModule,
     MatCheckboxModule,
     NgxMatFileInputModule,
+    CommonModule, // Add CommonModule to imports
   ],
   templateUrl: './tenants.component.html',
   styleUrl: './tenants.component.scss',
@@ -66,37 +69,25 @@ export class TenantsComponent {
   multiple: boolean = false;
   accept: string;
 
-  fileControl: FormControl;
-
-  //validations
-  constructor(private fb: FormBuilder) {
+  // fileControl: FormControl;
+  formControlName: FormControl;
+  constructor(private fb: FormBuilder) {}
+  ngOnInit(): void {
     this.tenantForm = this.fb.group({
       name: ['', Validators.required],
       tenantType: ['', Validators.required],
-      mobile: [
-        '',
-        [Validators.required, Validators.pattern('^[6-9]\\d{9}$')], // Indian mobile number pattern
-      ],
+      members: ['', [Validators.required, Validators.min(1)]],
+      floor: ['', Validators.required],
+      mobile: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      // file: ['', Validators.required],
     });
   }
 
-  get name() {
-    return this.tenantForm.get('name');
-  }
-
-  get tenantType() {
-    return this.tenantForm.get('tenantType');
-  }
-
-  get mobile() {
-    return this.tenantForm.get('mobile');
-  }
-
-  onSubmit() {
+  onSubmit(): void {
     if (this.tenantForm.valid) {
-      console.log('Form Submitted:', this.tenantForm.value);
+      console.log('Form Submitted!', this.tenantForm.value);
     } else {
-      console.log('Form is invalid');
+      console.log('Form is invalid!');
     }
   }
 }

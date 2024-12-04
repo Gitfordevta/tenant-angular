@@ -3,33 +3,57 @@
     <mat-card-title class="m-b-0">Add Tenant</mat-card-title>
   </mat-card-header>
   <mat-card-content class="b-t-1">
-    <form>
+    <form [formGroup]="tenantForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-lg-6">
           <!-- input -->
           <mat-label class="f-w-600 m-b-8 d-block">Name</mat-label>
           <mat-form-field appearance="outline" class="w-100" color="primary">
-            <input matInput formControlName="name"
-              placeholder="head of family " required />
+            <input
+              matInput
+              placeholder="Head of family"
+              formControlName="name"
+            />
+            <mat-error *ngIf="tenantForm.get('name')?.hasError('required')">
+              Name is required.
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="col-lg-6">
           <mat-label class="f-w-600 m-b-8 d-block">Tenant Type</mat-label>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-select [value]="selectedType">
+            <mat-select formControlName="tenantType" [value]="selectedType">
               @for(option of tenantTypeOptions; track option.value) {
-              <mat-option [value]="option.value">{{
-                option.viewValue
-                }}</mat-option>
+              <mat-option
+                [value]="option.value"
+                *ngFor="let option of tenantTypeOptions"
+                >{{ option.viewValue }}</mat-option
+              >
               }
             </mat-select>
+            <mat-error
+              *ngIf="tenantForm.get('tenantType')?.hasError('required')"
+            >
+              Tenant type is required.
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="col-lg-6">
           <!-- input -->
           <mat-label class="f-w-600 m-b-8 d-block">Members</mat-label>
           <mat-form-field appearance="outline" class="w-100" color="primary">
-            <input matInput type="number" placeholder="count" />
+            <input
+              matInput
+              type="number"
+              placeholder="count"
+              formControlName="members"
+            />
+            <mat-error *ngIf="tenantForm.get('members')?.hasError('required')">
+              Number of members is required.
+            </mat-error>
+            <mat-error *ngIf="tenantForm.get('members')?.hasError('min')">
+              Members should be at least 1.
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -37,20 +61,34 @@
           <!-- input -->
           <mat-label class="f-w-600 m-b-8 d-block">Floor</mat-label>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-select [value]="selectedType">
+            <mat-select [value]="selectedType" formControlName="floor">
               @for(option of floor; track option.value) {
-              <mat-option [value]="option.value">{{
+              <mat-option [value]="option.value" *ngFor="let option of floor">{{
                 option.viewValue
-                }}</mat-option>
+              }}</mat-option>
               }
             </mat-select>
+            <mat-error *ngIf="tenantForm.get('floor')?.hasError('required')">
+              Floor is required.
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="col-lg-6">
           <!-- input -->
           <mat-label class="f-w-600 m-b-8 d-block">Mobile</mat-label>
           <mat-form-field appearance="outline" class="w-100" color="primary">
-            <input matInput type="number" placeholder="mobile no." />
+            <input
+              matInput
+              type="number"
+              placeholder="mobile no."
+              formControlName="mobile"
+            />
+            <mat-error *ngIf="tenantForm.get('mobile')?.hasError('required')">
+              Mobile number is required.
+            </mat-error>
+            <mat-error *ngIf="tenantForm.get('mobile')?.hasError('pattern')">
+              Invalid mobile number.
+            </mat-error>
           </mat-form-field>
         </div>
         <!-- <div class="col-lg-6">
@@ -61,16 +99,21 @@
           <mat-label class="f-w-600 m-b-8 d-block">Upload Document</mat-label>
 
           <mat-form-field class="w-100" color="primary">
-            <ngx-mat-file-input [formControl]="fileControl"
-              [multiple]="multiple" [accept]="accept" [color]="color">
+            <ngx-mat-file-input
+              [multiple]="multiple"
+              [accept]="accept"
+              [color]="color"
+            >
             </ngx-mat-file-input>
+            <!-- <mat-error *ngIf="tenantForm.get('file')?.hasError('required')">
+              File is required.
+            </mat-error> -->
           </mat-form-field>
         </div>
       </div>
 
       <div class="m-t-12">
         <button mat-flat-button color="primary" class="m-r-8">Submit</button>
-        <button mat-stroked-button color="warn">Cancel</button>
       </div>
     </form>
   </mat-card-content>
