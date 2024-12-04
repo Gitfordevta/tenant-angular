@@ -44,8 +44,6 @@ interface Tenant {
   styleUrl: './tenants.component.scss',
 })
 export class TenantsComponent {
-  tenantForm: FormGroup;
-
   tenantTypeOptions: Tenant[] = [
     { value: '', viewValue: '--Select--' },
     { value: 'family', viewValue: 'Family' },
@@ -69,20 +67,21 @@ export class TenantsComponent {
   multiple: boolean = false;
   accept: string;
 
-  // fileControl: FormControl;
-  formControlName: FormControl;
-  constructor(private fb: FormBuilder) {}
-  ngOnInit(): void {
-    this.tenantForm = this.fb.group({
-      name: ['', Validators.required],
-      tenantType: ['', Validators.required],
-      members: ['', [Validators.required, Validators.min(1)]],
-      floor: ['', Validators.required],
-      mobile: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-      // file: ['', Validators.required],
-    });
-  }
+  tenantForm = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    tenantType: new FormControl('', [Validators.required]),
+    members: new FormControl('', [Validators.required, Validators.min(1)]),
+    floor: new FormControl('', [Validators.required]),
+    mobile: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[0-9]{10}$/),
+    ]),
+  });
 
+  // fileControl: FormControl;
+  get tf() {
+    return this.tenantForm.controls;
+  }
   onSubmit(): void {
     if (this.tenantForm.valid) {
       console.log('Form Submitted!', this.tenantForm.value);

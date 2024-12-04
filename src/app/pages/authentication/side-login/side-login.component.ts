@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Import CommonModule
+
 import {
   FormGroup,
   FormControl,
@@ -19,23 +21,25 @@ import { MatButtonModule } from '@angular/material/button';
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
+    CommonModule, // Add CommonModule to imports
   ],
   templateUrl: './side-login.component.html',
 })
 export class AppSideLoginComponent {
-  constructor(private router: Router) {}
-
-  form = new FormGroup({
+  signInform = new FormGroup({
     uname: new FormControl('', [Validators.required, Validators.minLength(6)]),
     password: new FormControl('', [Validators.required]),
   });
 
   get f() {
-    return this.form.controls;
+    return this.signInform.controls;
   }
 
   submit() {
-    // console.log(this.form.value);
-    this.router.navigate(['/']);
+    if (this.signInform.valid) {
+      console.log('Form Submitted!', this.signInform.value);
+    } else {
+      console.log('Form is invalid!');
+    }
   }
 }

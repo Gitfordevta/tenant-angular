@@ -12,9 +12,8 @@
             <input
               matInput
               placeholder="Head of family"
-              formControlName="name"
-            />
-            <mat-error *ngIf="tenantForm.get('name')?.hasError('required')">
+              formControlName="name" />
+            <mat-error *ngIf="tf.name.hasError('required')">
               Name is required.
             </mat-error>
           </mat-form-field>
@@ -26,14 +25,12 @@
               @for(option of tenantTypeOptions; track option.value) {
               <mat-option
                 [value]="option.value"
-                *ngFor="let option of tenantTypeOptions"
-                >{{ option.viewValue }}</mat-option
-              >
+                *ngFor="let option of tenantTypeOptions">{{ option.viewValue
+                }}</mat-option>
               }
             </mat-select>
             <mat-error
-              *ngIf="tenantForm.get('tenantType')?.hasError('required')"
-            >
+              *ngIf="tf.tenantType.hasError('required')">
               Tenant type is required.
             </mat-error>
           </mat-form-field>
@@ -46,12 +43,11 @@
               matInput
               type="number"
               placeholder="count"
-              formControlName="members"
-            />
-            <mat-error *ngIf="tenantForm.get('members')?.hasError('required')">
+              formControlName="members" />
+            <mat-error *ngIf="tf.members.hasError('required')">
               Number of members is required.
             </mat-error>
-            <mat-error *ngIf="tenantForm.get('members')?.hasError('min')">
+            <mat-error *ngIf="tf.members.hasError('min')">
               Members should be at least 1.
             </mat-error>
           </mat-form-field>
@@ -65,10 +61,10 @@
               @for(option of floor; track option.value) {
               <mat-option [value]="option.value" *ngFor="let option of floor">{{
                 option.viewValue
-              }}</mat-option>
+                }}</mat-option>
               }
             </mat-select>
-            <mat-error *ngIf="tenantForm.get('floor')?.hasError('required')">
+            <mat-error *ngIf="tf.floor.hasError('required')">
               Floor is required.
             </mat-error>
           </mat-form-field>
@@ -81,12 +77,11 @@
               matInput
               type="number"
               placeholder="mobile no."
-              formControlName="mobile"
-            />
-            <mat-error *ngIf="tenantForm.get('mobile')?.hasError('required')">
+              formControlName="mobile" />
+            <mat-error *ngIf="tf.mobile.hasError('required')">
               Mobile number is required.
             </mat-error>
-            <mat-error *ngIf="tenantForm.get('mobile')?.hasError('pattern')">
+            <mat-error *ngIf="tf.mobile.hasError('pattern')">
               Invalid mobile number.
             </mat-error>
           </mat-form-field>
@@ -102,8 +97,7 @@
             <ngx-mat-file-input
               [multiple]="multiple"
               [accept]="accept"
-              [color]="color"
-            >
+              [color]="color">
             </ngx-mat-file-input>
             <!-- <mat-error *ngIf="tenantForm.get('file')?.hasError('required')">
               File is required.
